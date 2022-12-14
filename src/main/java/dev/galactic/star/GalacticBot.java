@@ -31,8 +31,6 @@ package dev.galactic.star;
  * limitations under the License.
  */
 
-import dev.galactic.star.config.Configuration;
-import dev.galactic.star.config.system.SystemConfig;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -44,53 +42,38 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class GalacticBot {
 
     private static final GalacticBot bot = new GalacticBot();
-    private final Logger logger = LoggerFactory.getLogger("GalacticBot");
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger("GalacticBot");
     private JDA jda;
-    private Configuration configurations;
     private boolean isRunning = true;
-    private HashMap<String, String> systemCommands = new HashMap<>();
-    private SystemConfig systemConfig;
+    private BotSystem system = new BotSystem();
 
     public static void main(String[] args) {
+
         bot.logger.info("Starting Discord Bot...");
         bot.loadEverything();
         bot.logger.info("Started Discord Bot.");
+        //bot.logger.debug(bot.configurations.getModCommandConfig().get(0).getName());
     }
 
     //Just loads everything
     public void loadEverything() {
-        this.configurations = new Configuration();
-        this.loadSystemCommands();
-        this.loadConfigurations();
+        this.system.loadSystemCommands();
+        this.system.loadConfigurations();
         this.loginToBot();
+        try {
+            this.jda.getSelfUser().getManager().setAvatar(Icon.from(this.system.getConfigurations().getAvatarFile())).submit().join();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.listenForCommands();
     }
-
-    //Places the current system commands into hte hashmap so that it can be used in the printHelp method
-    private void loadSystemCommands() {
-        this.systemCommands.put("exit|stop", "Stop and close the connection of the bot.");
-        this.systemCommands.put("info|i", "Get information about the bot.");
-        this.systemCommands.put("reload|rl", "Reloads the configuration and bot itself.");
-    }
-
-    //Loads the configuration files
-    private void loadConfigurations() {
-        this.logger.info("Loading Configurations...");
-        File jsonConfig = SystemConfig.createJsonConfig();
-        this.configurations.readConfigurations(jsonConfig);
-        this.systemConfig = this.configurations.getSystemConfig();
-        this.logger.info("Loaded Configurations.");
-    }
-
     //Stops accepting commands by setting isRunning to false. Disconnects the bot from the gateway.
     public void exitBot() {
         this.logger.warn("Shutting down Bot...");
@@ -111,17 +94,17 @@ public class GalacticBot {
 
     //Logs in to the bots gateway
     private void loginToBot() {
-        dev.galactic.star.config.system.Activity activity = this.systemConfig.getActivity();
+        dev.galactic.star.config.system.Activity activity = this.system.getSystemConfig().getActivity();
             try {
-                jda = JDABuilder.createDefault(this.systemConfig.getToken())
+                jda = JDABuilder.createDefault(this.system.getSystemConfig().getToken())
                         .setAutoReconnect(true)
-                        .setStatus(OnlineStatus.valueOf(this.systemConfig.getOnline_status().toUpperCase()))
+                        .setStatus(OnlineStatus.valueOf(this.system.getSystemConfig().getOnline_status().toUpperCase()))
                         .enableCache(CacheFlag.MEMBER_OVERRIDES)
-                        .setActivity(Activity.of(ActivityType.valueOf(activity.getType().toUpperCase()), activity.getMessage()))
+                        .setActivity(Activity.of(ActivityType.valueOf(activity.getType().toUpperCase()),
+                                activity.getMessage()))
                         .build();
             }catch (InvalidTokenException | IllegalArgumentException e) {
                 this.logger.warn("Invalid token. Please check it and try again: " + e.getMessage());
-                this.getLogger().warn(this.systemConfig.getToken());
                 exitBot();
                 System.exit(0);
             }
@@ -169,9 +152,9 @@ public class GalacticBot {
     //Prints the list of commands in the hashmap that  on load, it runs loadSystemCommands which places the name and description into the map.
     private void printHelp() {
         this.logger.info("----------------------------Help Commands-----------------------------");
-       for (Entry<String, String> e : this.systemCommands.entrySet()) {
-           this.logger.info(e.getKey() + " - " + e.getValue());
-       }
+        for (Entry<String, String> e : this.system.getSystemCommands().entrySet()) {
+            this.logger.info(e.getKey() + " - " + e.getValue());
+        }
         this.logger.info("----------------------------Help Commands-----------------------------");
     }
 
@@ -185,21 +168,5 @@ public class GalacticBot {
 
     public JDA getJda() {
         return jda;
-    }
-
-    public Configuration getConfigurations() {
-        return configurations;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public HashMap<String, String> getSystemCommands() {
-        return systemCommands;
-    }
-
-    public SystemConfig getSystemConfig() {
-        return systemConfig;
     }
 }

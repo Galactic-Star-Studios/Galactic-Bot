@@ -1,0 +1,37 @@
+- name: avatar
+  description: Shows your or someone else's profile picture
+  options:
+    - name: user
+      description: If given, shows the profile picture of the given user
+      required: false
+      type: USER
+  handler: dev.galactic.star.commands.user.AvatarCommand
+
+# /botinfo
+- name: botinfo
+  description: Shows some information about the Bot
+  handler: dev.galactic.star.commands.user.BotInfoCommand
+
+# /ping
+- name: ping
+  description: Checks the Bot's Gateway Ping
+  handler: dev.galactic.star.commands.user.PingCommand
+# /profile
+- name: profile
+  description: Shows your or someone else's profile
+  options:
+    - name: user
+      description: If given, shows the profile of the user
+      required: false
+      type: USER
+  handler: dev.galactic.star.commands.user.ProfileCommand
+
+# /serverinfo
+- name: serverinfo
+  description: Shows some information about the current guild
+  handler: dev.galactic.star.commands.user.ServerInfoCommand
+
+# /uptime
+- name: uptime
+  description: Checks the Bot's uptime
+  handler: dev.galactic.star.commands.user.UptimeCommand

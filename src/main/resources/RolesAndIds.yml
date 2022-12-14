@@ -1,0 +1,3 @@
+- name: moderator
+  type: "ROLE"
+  id: 12345

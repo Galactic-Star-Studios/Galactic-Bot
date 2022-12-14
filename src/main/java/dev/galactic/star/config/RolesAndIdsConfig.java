@@ -14,22 +14,34 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.system;
+package dev.galactic.star.config;
 
-public class SystemConfig {
-    private String token;
-    private Activity activity;
-    private String online_status;
+public class RolesAndIdsConfig {
+    private String name;
+    private String type;
+    private Object id;
 
-    public String getToken() {
-        return token;
+    public String getName() {
+        return name;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getOnline_status() {
-        return online_status;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Object getId() {
+        return id;
+    }
+
+    public void setId(Object id) {
+        this.id = id;
     }
 }

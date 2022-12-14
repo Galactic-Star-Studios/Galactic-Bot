@@ -1,0 +1,188 @@
+#Inspired config by JavaDiscord's java bot: https://github.com/Java-Discord/JavaBot
+- name: ban
+  description: Ban a user.
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderators
+  options:
+    - name: user
+      description: The user to ban.
+      type: USER
+      required: true
+    - name: reason
+      description: The reason for banning this user.
+      type: STRING
+      required: true
+    - name: quiet
+      description: If true, don't send a message in the server channel where the ban is issued.
+      type: BOOLEAN
+      required: false
+  handler: dev.galactic.star.commands.mod.BanCommand
+- name: kick
+  description: Kicks a member
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderators
+  options:
+    - name: user
+      description: The user to kick.
+      type: USER
+      required: true
+    - name: reason
+      description: The reason for kicking this user.
+      type: STRING
+      required: true
+    - name: quiet
+      description: If true, don't send a message in the server channel where the kick is issued.
+      type: BOOLEAN
+      required: false
+  handler: dev.galactic.star.commands.mod.KickCommand
+- name: timeout
+  description: Commands for managing User Timeouts.
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderators
+  subCommands:
+    # /timeout add
+    - name: add
+      description: Adds a Timeout to the given User.
+      options:
+        - name: user
+          description: The user that should be timed out.
+          required: true
+          type: USER
+        - name: duration-amount
+          description: How long the Timeout should last.
+          required: true
+          type: INTEGER
+        - name: duration-timeunit
+          description: What Timeunit your Duration should have
+          required: true
+          type: STRING
+          choices:
+            - name: Seconds
+              value: SECONDS
+            - name: Minutes
+              value: MINUTES
+            - name: Hours
+              value: HOURS
+            - name: Days
+              value: DAYS
+            - name: Weeks
+              value: WEEKS
+        - name: reason
+          description: The reason for adding this Timeout.
+          required: true
+          type: STRING
+        - name: quiet
+          description: If true, don't send a message in the server channel where the Timeout is issued.
+          type: BOOLEAN
+          required: false
+    # /timeout remove
+    - name: remove
+      description: Removes a Timeout from the given User.
+      options:
+        - name: user
+          description: The user whose Timeout should be removed.
+          required: true
+          type: USER
+        - name: reason
+          description: The reason for removing this Timeout.
+          required: true
+          type: STRING
+        - name: quiet
+          description: If true, don't send a message in the server channel where the Timeout is issued.
+          type: BOOLEAN
+          required: false
+  handler: dev.galactic.star.commands.mod.TimeoutCommandHandler
+- name: purge
+  description: Deletes messages from a channel.
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderators
+  options:
+    - name: amount
+      description: Number of messages to remove.
+      type: INTEGER
+      required: true
+    - name: user
+      description: The user whose messages to remove. If left blank, messages from any user are removed.
+      type: USER
+      required: false
+    - name: archive
+      description: Whether the removed messages should be saved in an archive. This defaults to true, if left blank.
+      type: BOOLEAN
+      required: false
+  handler: dev.galactic.star.commands.mod.PurgeCommand
+- name: unban
+  description: Unbans a member
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderation.staffRoleId
+  options:
+    - name: id
+      description: The ID of the user you want to unban
+      required: true
+      type: STRING
+  handler: dev.galactic.star.commands.mod.UnbanCommand
+
+# /warn
+- name: warn
+  description: Commands for managing user warns.
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderators
+  subCommands:
+    # /warn add
+    - name: add
+      description: Sends a warning to a user, and increases their warn severity rating.
+      options:
+        - name: user
+          description: The user to warn.
+          type: USER
+          required: true
+        - name: severity
+          description: How severe was the offense?
+          type: STRING
+          required: true
+          choices:
+            - name: Low
+              value: "LOW"
+            - name: Medium
+              value: "MEDIUM"
+            - name: High
+              value: "HIGH"
+        - name: reason
+          description: The reason for this user's warning.
+          type: STRING
+          required: true
+        - name: quiet
+          description: If true, don't send a message in the server channel where the warn is issued.
+          type: BOOLEAN
+          required: false
+
+    # /warn discard-by-id
+    - name: discard-by-id
+      description: Discards a singular Warn by its Id
+      options:
+        - name: id
+          description: The warn's id
+          required: true
+          type: INTEGER
+
+    # /warn discard-all
+    - name: discard-all
+      description: Discards all warns from a user
+      options:
+        - name: user
+          description: The user which warns should be discarded
+          required: true
+          type: USER
+  handler: dev.galactic.star.commands.mod.WarnCommandHandler
+

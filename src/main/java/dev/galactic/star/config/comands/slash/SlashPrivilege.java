@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.system;
+package dev.galactic.star.config.comands.slash;
 
-public class SystemConfig {
-    private String token;
-    private Activity activity;
-    private String online_status;
+public class SlashPrivilege {
+    private String type;
+    private String id;
 
-    public String getToken() {
-        return token;
+    public String getType() {
+        return type;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getOnline_status() {
-        return online_status;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

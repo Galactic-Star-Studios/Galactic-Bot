@@ -14,22 +14,35 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.system;
+package dev.galactic.star.config.comands.context;
 
-public class SystemConfig {
-    private String token;
-    private Activity activity;
-    private String online_status;
+public class ContextCommand {
 
-    public String getToken() {
-        return token;
+    private String name;
+    private String type;
+    private String handler;
+
+    public String getName() {
+        return name;
     }
 
-    public Activity getActivity() {
-        return activity;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getOnline_status() {
-        return online_status;
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getHandler() {
+        return handler;
+    }
+
+    public void setHandler(String handler) {
+        this.handler = handler;
     }
 }
