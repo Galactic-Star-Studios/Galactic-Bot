@@ -1,0 +1,6 @@
+- name: Report User
+  type: USER
+  handler: dev.galactic.star.commands.mod.ReportCommand
+- name: Report Message
+  type: MESSAGE
+  handler: dev.galactic.star.commands.mod.ReportCommand

@@ -1,0 +1,8 @@
+{
+  "token": "put your own token here",
+  "activity": {
+    "type": "watching",
+    "message": "everyone one of you guy's moves."
+  },
+  "online_status": "ONLINE"
+}
