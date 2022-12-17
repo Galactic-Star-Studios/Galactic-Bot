@@ -14,31 +14,29 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.comands.slash;
+package dev.galactic.star.commands;
 
-import net.dv8tion.jda.api.interactions.commands.Command.Choice;
+import dev.galactic.star.config.Configuration;
+import net.dv8tion.jda.api.JDA;
 
-public class SlashChoices {
-    private String name;
-    private String value;
+public class CommandLoader {
 
-    public Choice toData() {
-        return new Choice(this.name, this.value);
+    public static void registerCommands(JDA jda) {
+        Configuration config = Configuration.getInstance();
+        registerModCommands(jda, config);
+        registerUserCommands(jda, config);
+        registerContextCommands(jda, config);
     }
 
-    public String getName() {
-        return name;
+    private static void registerModCommands(JDA jda, Configuration config) {
+        //TODO
     }
 
-    public void setName(String name) {
-        this.name = name;
+    private static void registerUserCommands(JDA jda, Configuration config) {
+
     }
 
-    public String getValue() {
-        return value;
-    }
+    private static void registerContextCommands(JDA jda, Configuration config) {
 
-    public void setValue(String value) {
-        this.value = value;
     }
 }

@@ -16,19 +16,19 @@
 
 package dev.galactic.star.config.comands.slash;
 
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 
-import java.util.List;
+import java.util.Arrays;
 
-public class SlashSubCommand {
+public class SlashSubCommandGroup {
     private String name;
     private String description;
-    private List<SlashOptions> options;
+    private SlashSubCommand[] subCommands;
 
-    public SubcommandData toData() {
-        SubcommandData data = new SubcommandData(this.name, this.description);
-        if (this.options != null) {
-            data.addOptions(this.options.stream().map(SlashOptions::toData).toList());
+    public SubcommandGroupData toData() {
+        SubcommandGroupData data = new SubcommandGroupData(this.name, this.description);
+        if (this.subCommands != null) {
+            data.addSubcommands(Arrays.stream(subCommands).map(SlashSubCommand::toData).toList());
         }
         return data;
     }
@@ -49,11 +49,11 @@ public class SlashSubCommand {
         this.description = description;
     }
 
-    public List<SlashOptions> getOptions() {
-        return options;
+    public SlashSubCommand[] getSubCommands() {
+        return subCommands;
     }
 
-    public void setOptions(List<SlashOptions> options) {
-        this.options = options;
+    public void setSubCommands(SlashSubCommand[] subCommands) {
+        this.subCommands = subCommands;
     }
 }

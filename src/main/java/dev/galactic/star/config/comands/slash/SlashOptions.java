@@ -16,7 +16,11 @@
 
 package dev.galactic.star.config.comands.slash;
 
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SlashOptions {
     private String name;
@@ -24,6 +28,17 @@ public class SlashOptions {
     private boolean required;
     private String type;
     private List<SlashChoices> choices;
+
+    public OptionData toData() {
+        OptionData data = new OptionData(OptionType.valueOf(this.type.toUpperCase()), this.name, this.description,
+                this.required
+        );
+        data.setAutoComplete(true);
+        if (this.choices != null) {
+            data.addChoices(this.choices.stream().map(SlashChoices::toData).collect(Collectors.toList()));
+        }
+        return data;
+    }
 
     public List<SlashChoices> getChoices() {
         return choices;

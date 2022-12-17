@@ -16,9 +16,19 @@
 
 package dev.galactic.star.config.comands.slash;
 
+import dev.galactic.star.BotSystem;
+import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege;
+import net.dv8tion.jda.api.interactions.commands.privileges.IntegrationPrivilege.Type;
+
 public class SlashPrivilege {
     private String type;
+    private boolean enabled = true;
     private String id;
+
+    public IntegrationPrivilege toData() {
+        return new IntegrationPrivilege(BotSystem.getInstance().getGuild(), Type.valueOf(this.type.toUpperCase()),
+                this.enabled, Long.parseLong(this.id));
+    }
 
     public String getType() {
         return type;
@@ -34,5 +44,13 @@ public class SlashPrivilege {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

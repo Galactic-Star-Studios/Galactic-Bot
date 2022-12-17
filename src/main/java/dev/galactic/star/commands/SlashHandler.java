@@ -14,32 +14,11 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.system;
+package dev.galactic.star.commands;
 
-public class SystemConfig {
-    private String token;
-    private String guild_id;
-    private boolean for_guild;
-    private SystemActivity systemActivity;
-    private String online_status;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-    public String getToken() {
-        return token;
-    }
+public interface SlashHandler {
 
-    public SystemActivity getActivity() {
-        return systemActivity;
-    }
-
-    public String getOnline_status() {
-        return online_status;
-    }
-
-    public String getGuild_id() {
-        return guild_id;
-    }
-
-    public boolean isFor_guild() {
-        return for_guild;
-    }
+    public void handleEvent(SlashCommandInteractionEvent event);
 }

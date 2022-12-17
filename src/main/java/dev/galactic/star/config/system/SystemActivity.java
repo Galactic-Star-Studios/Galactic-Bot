@@ -16,7 +16,7 @@
 
 package dev.galactic.star.config.system;
 
-public class Activity {
+public class SystemActivity {
     private String type;
     private String message;
 
