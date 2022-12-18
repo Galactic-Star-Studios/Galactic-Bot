@@ -14,30 +14,10 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.comands.slash;
+package dev.galactic.star.commands;
 
-import net.dv8tion.jda.api.interactions.commands.Command.Choice;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
 
-public class SlashChoices {
-    private String name;
-    private String value;
-
-    public Choice toData() {
-        return new Choice(this.name, this.value);
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
+public interface ContextHandler {
+    public void handleEvent(UserContextInteractionEvent event);
 }

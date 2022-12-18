@@ -33,7 +33,7 @@ public class SlashOptions {
         OptionData data = new OptionData(OptionType.valueOf(this.type.toUpperCase()), this.name, this.description,
                 this.required
         );
-        data.setAutoComplete(true);
+        //data.setAutoComplete(true);
         if (this.choices != null) {
             data.addChoices(this.choices.stream().map(SlashChoices::toData).collect(Collectors.toList()));
         }

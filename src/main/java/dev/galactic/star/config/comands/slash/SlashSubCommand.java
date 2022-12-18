@@ -32,7 +32,6 @@ public class SlashSubCommand {
         }
         return data;
     }
-
     public String getName() {
         return name;
     }

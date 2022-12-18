@@ -20,7 +20,8 @@ public class SystemConfig {
     private String token;
     private String guild_id;
     private boolean for_guild;
-    private SystemActivity systemActivity;
+    private boolean del_cmd_on_reload;
+    private SystemActivity activity;
     private String online_status;
 
     public String getToken() {
@@ -28,7 +29,7 @@ public class SystemConfig {
     }
 
     public SystemActivity getActivity() {
-        return systemActivity;
+        return activity;
     }
 
     public String getOnline_status() {
@@ -41,5 +42,9 @@ public class SystemConfig {
 
     public boolean isFor_guild() {
         return for_guild;
+    }
+
+    public boolean isDel_cmd_on_reload() {
+        return del_cmd_on_reload;
     }
 }

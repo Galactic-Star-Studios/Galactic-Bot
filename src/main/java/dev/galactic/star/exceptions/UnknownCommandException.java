@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.comands.slash;
+package dev.galactic.star.exceptions;
 
-import net.dv8tion.jda.api.interactions.commands.Command.Choice;
+public class UnknownCommandException extends Exception {
 
-public class SlashChoices {
-    private String name;
-    private String value;
-
-    public Choice toData() {
-        return new Choice(this.name, this.value);
-    }
-    public String getName() {
-        return name;
+    public UnknownCommandException(String message) {
+        super(message);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public UnknownCommandException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

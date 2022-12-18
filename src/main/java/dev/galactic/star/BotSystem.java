@@ -50,9 +50,6 @@ public class BotSystem {
         this.systemCommands.put("reload|rl", "Reloads the configuration and bot itself.");
     }
 
-    public void registerCommands() {
-    }
-
     public void loadConfigurations() {
         GalacticBot.getBot().getLogger().info("Loading Configurations...");
         this.configurations.generateFiles();

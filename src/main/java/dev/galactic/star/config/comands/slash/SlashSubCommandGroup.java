@@ -32,7 +32,6 @@ public class SlashSubCommandGroup {
         }
         return data;
     }
-
     public String getName() {
         return name;
     }

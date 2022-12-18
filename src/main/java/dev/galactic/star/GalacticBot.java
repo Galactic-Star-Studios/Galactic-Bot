@@ -16,6 +16,7 @@
 
 package dev.galactic.star;
 
+import dev.galactic.star.commands.CommandLoader;
 import dev.galactic.star.config.Configuration;
 import dev.galactic.star.config.system.SystemActivity;
 import net.dv8tion.jda.api.JDA;
@@ -54,6 +55,8 @@ public class GalacticBot {
         this.system.loadSystemCommands();
         this.system.loadConfigurations();
         this.loginToBot();
+        this.jda.addEventListener(new CommandLoader());
+        CommandLoader.registerCommands(this.jda);
         try {
             this.jda.getSelfUser().getManager().setAvatar(Icon.from(this.system.getConfigurations().getAvatarFile())).submit().join();
         } catch (IOException e) {

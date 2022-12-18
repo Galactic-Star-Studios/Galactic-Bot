@@ -118,8 +118,6 @@ public class Configuration {
     //Assigning the above file objects to these
     private void initializeFiles() {
         new File(Configuration.dataPath + "commands/").mkdirs();
-        new File(Configuration.dataPath + "commands/").mkdirs();
-        new File(Configuration.dataPath + "commands/").mkdirs();
         this.systemConfigFile = new File(Configuration.dataPath + "System.json");
         this.avatarFile = new File(Configuration.dataPath + "Avatar.png");
         this.modCommandFile = new File(Configuration.dataPath + "commands/", "Mod.yml");

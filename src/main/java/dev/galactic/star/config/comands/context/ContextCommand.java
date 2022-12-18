@@ -16,11 +16,19 @@
 
 package dev.galactic.star.config.comands.context;
 
+import net.dv8tion.jda.api.interactions.commands.Command.Type;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+
 public class ContextCommand {
 
     private String name;
     private String type;
     private String handler;
+
+    public CommandData toData() {
+        return Commands.context(Type.valueOf(this.type.toUpperCase()), this.name);
+    }
 
     public String getName() {
         return name;

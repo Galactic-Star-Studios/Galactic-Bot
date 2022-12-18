@@ -16,27 +16,105 @@
 
 package dev.galactic.star.commands;
 
+import dev.galactic.star.GalacticBot;
 import dev.galactic.star.config.Configuration;
+import dev.galactic.star.config.comands.context.ContextCommand;
+import dev.galactic.star.config.comands.slash.SlashCommand;
+import dev.galactic.star.exceptions.UnknownCommandException;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.Command;
 
-public class CommandLoader {
+import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
+public class CommandLoader extends ListenerAdapter {
+
+    private static final HashMap<Command, SlashCommand> slashCommands = new HashMap<>();
+    private static final HashMap<Command, ContextCommand> contextCommands = new HashMap<>();
+
+    //Registers the slash/context commands
     public static void registerCommands(JDA jda) {
-        Configuration config = Configuration.getInstance();
-        registerModCommands(jda, config);
-        registerUserCommands(jda, config);
-        registerContextCommands(jda, config);
+        //Running it asynchronously
+        CompletableFuture.runAsync(() -> {
+            slashCommands.clear();
+            contextCommands.clear();
+            Configuration config = Configuration.getInstance();
+            if (config.getSystemConfig().isDel_cmd_on_reload()) {
+                for (Command cmd : jda.retrieveCommands().complete()) {
+                    cmd.delete().queue();
+                }
+            }
+            config.getModCommandConfig().forEach(e -> slashCommands.put(jda.upsertCommand(e.toData()).complete(), e));
+            config.getUserCommandConfig().forEach(e -> slashCommands.put(jda.upsertCommand(e.toData()).complete(), e));
+            config.getContextConfig().forEach(e -> contextCommands.put(jda.upsertCommand(e.toData()).complete(), e));
+            GalacticBot.getBot().getLogger().info("Updated and registered slash/context commands.");
+        });
     }
 
-    private static void registerModCommands(JDA jda, Configuration config) {
-        //TODO
+    public static HashMap<Command, SlashCommand> getSlashCommands() {
+        return slashCommands;
     }
 
-    private static void registerUserCommands(JDA jda, Configuration config) {
-
+    public static HashMap<Command, ContextCommand> getContextCommands() {
+        return contextCommands;
     }
 
-    private static void registerContextCommands(JDA jda, Configuration config) {
+    //Returns the slash command
+    @SuppressWarnings("deprecation")
+    public SlashHandler getCommand(String name) throws UnknownCommandException {
+        String cmd = slashCommands.values()
+                .stream()
+                .filter(e -> e.getName().equals(name))
+                .map(SlashCommand::getHandler).toList().get(0);
+        if (cmd == null) {
+            throw new UnknownCommandException("Unknown Command by the name: \"" + name + "\"");
+        }
+        try {
+            return (SlashHandler) Class.forName(cmd).newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    //Returns the context command
+    @SuppressWarnings("deprecation")
+    public ContextHandler getContextCommand(String name) throws UnknownCommandException {
+        String cmd = contextCommands.values()
+                .stream()
+                .filter(e -> e.getName().equals(name))
+                .map(ContextCommand::getHandler).toList().get(0);
+        if (cmd == null) {
+            throw new UnknownCommandException("Unknown Context Command by the name: \"" + name + "\"");
+        }
+        try {
+            return (ContextHandler) Class.forName(cmd).newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Invokes the method to handle the event
+    @Override
+    public void onUserContextInteraction(UserContextInteractionEvent event) {
+        super.onUserContextInteraction(event);
+        try {
+            this.getContextCommand(event.getName()).handleEvent(event);
+        } catch (UnknownCommandException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //Invokes the method to handle the event
+    @Override
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        super.onSlashCommandInteraction(event);
+        try {
+            this.getCommand(event.getName()).handleEvent(event);
+        } catch (UnknownCommandException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
