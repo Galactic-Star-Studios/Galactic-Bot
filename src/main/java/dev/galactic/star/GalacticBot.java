@@ -186,7 +186,6 @@ public class GalacticBot {
         CompletableFuture.runAsync(() -> {
             try (Scanner scanner = new Scanner(System.in)) {
                 while (this.isRunning) {
-                    System.out.println(this.isRunning);
                     String cmd = scanner.nextLine().toLowerCase();
                     switch (cmd) {
                         case "exit", "stop" -> {
