@@ -17,9 +17,12 @@
 package dev.galactic.star.config;
 
 import com.google.gson.Gson;
+import dev.galactic.star.BotSystem;
 import dev.galactic.star.GalacticBot;
+import dev.galactic.star.H2Database;
 import dev.galactic.star.config.comands.context.ContextCommand;
 import dev.galactic.star.config.comands.slash.SlashCommand;
+import dev.galactic.star.config.system.DatabaseConfig;
 import dev.galactic.star.config.system.SystemConfig;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -43,6 +46,7 @@ public class Configuration {
     private File contextCommandsFile;
     private File rolesAndIds;
     private File avatarFile;
+    private File h2Db;
 
     //Just so when it gets instantiated, it removes the last bit (The jar file's name) and replaces it with an empty
     // string
@@ -51,15 +55,10 @@ public class Configuration {
         dataPath = GalacticBot.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String[] splitJsonPath = dataPath.split("/");
         Configuration.dataPath = dataPath.replace(splitJsonPath[splitJsonPath.length - 1], "");
-        this.generateFiles();
     }
 
     public static Configuration getInstance() {
         return instance;
-    }
-
-    public static void setInstance(Configuration instance) {
-        Configuration.instance = instance;
     }
 
     public static String getDataPath() {
@@ -68,6 +67,14 @@ public class Configuration {
 
     public static void setDataPath(String dataPath) {
         Configuration.dataPath = dataPath;
+    }
+
+    private void connectToDatabase() {
+        DatabaseConfig config = this.systemConfig.getDatabase();
+        if (config.getPassword().equals("blank") && config.getUsername().equals("blank")) {
+            GalacticBot.getBot().getLogger().error("Please set a username and password");
+        }
+        BotSystem.getInstance().setDb(new H2Database(config.getUsername(), config.getPassword()));
     }
 
     //Generating all files needed to work.
@@ -85,6 +92,7 @@ public class Configuration {
         try (FileReader reader = new FileReader(this.systemConfigFile)) {
             this.systemConfig = null;
             this.systemConfig = gson.fromJson(reader, SystemConfig.class);
+            GalacticBot.getBot().setup();
         } catch (IOException e) {
             GalacticBot.getBot().getLogger().error("Invalid System.json");
         }
@@ -94,8 +102,6 @@ public class Configuration {
     private void generateAvatarFile() {
         try (InputStream in = GalacticBot.class.getResourceAsStream("/Avatar.png")) {
             Files.copy(in, this.avatarFile.toPath());
-        } catch (FileNotFoundException e) {
-            //
         } catch (IOException e) {
             //
         }
@@ -118,6 +124,7 @@ public class Configuration {
     //Assigning the above file objects to these
     private void initializeFiles() {
         new File(Configuration.dataPath + "commands/").mkdirs();
+        //this.h2Db = new File(Configuration.dataPath + "Database.h2/");
         this.systemConfigFile = new File(Configuration.dataPath + "System.json");
         this.avatarFile = new File(Configuration.dataPath + "Avatar.png");
         this.modCommandFile = new File(Configuration.dataPath + "commands/", "Mod.yml");
@@ -133,6 +140,7 @@ public class Configuration {
              InputStream user = new FileInputStream(this.userCommandFile);
              InputStream context = new FileInputStream(this.contextCommandsFile);
              InputStream rolesIds = new FileInputStream(this.rolesAndIds)) {
+            //this.h2Db.createNewFile();
             this.modCommandConfig = Arrays.asList(new Yaml(new Constructor(SlashCommand[].class)).load(mod));
             this.userCommandConfig = Arrays.asList(new Yaml(new Constructor(SlashCommand[].class)).load(user));
             this.contextConfig = Arrays.asList(new Yaml(new Constructor(ContextCommand[].class)).load(context));
@@ -249,5 +257,13 @@ public class Configuration {
 
     public void setAvatarFile(File avatarFile) {
         this.avatarFile = avatarFile;
+    }
+
+    public File getH2Db() {
+        return h2Db;
+    }
+
+    public void setH2Db(File h2Db) {
+        this.h2Db = h2Db;
     }
 }

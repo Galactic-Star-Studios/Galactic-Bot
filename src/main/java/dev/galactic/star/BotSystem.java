@@ -28,16 +28,20 @@ public class BotSystem {
     private Guild guild;
     private HashMap<String, String> systemCommands = new HashMap<>();
     private SystemConfig systemConfig;
-    private Configuration configurations = new Configuration();
+    private Configuration configurations;
+    private H2Database db;
 
     public BotSystem(Guild guild) {
         INSTANCE = this;
         this.guild = guild;
+        this.configurations = new Configuration();
     }
 
     public BotSystem() {
         INSTANCE = this;
+        this.configurations = new Configuration();
     }
+
 
     public static BotSystem getInstance() {
         return INSTANCE;
@@ -88,5 +92,13 @@ public class BotSystem {
 
     public void setGuild(Guild guild) {
         this.guild = guild;
+    }
+
+    public H2Database getDb() {
+        return db;
+    }
+
+    public void setDb(H2Database db) {
+        this.db = db;
     }
 }

@@ -14,25 +14,10 @@
  * limitations under the License.
  */
 
-package dev.galactic.star.config.system;
+package dev.galactic.star.actions;
 
-public class SystemActivity {
-    private String type;
-    private String message;
-
-    public String getType() {
-        return type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
+public class ConstantInfo {
+    public static final String inviteLink = "https://discord.gg/8vRfYaw9Y7";
+    public static final String githubLink = "https://github.com/Galactic-Star-Studios";
+    public static final String docsLink = "https://galactic-star.dev";
 }

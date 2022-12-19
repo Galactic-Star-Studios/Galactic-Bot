@@ -1,8 +1,13 @@
 {
-  "token": "put your own token here",
-  "guild_id": "id",
+  "token": "",
+  "max_severity": -1,
+  "guild_id": "",
   "for_guild": true,
   "del_cmd_on_reload": false,
+  "database": {
+    "username": "",
+    "password": ""
+  },
   "activity": {
     "type": "watching",
     "message": "everyone one of you guy's moves."
