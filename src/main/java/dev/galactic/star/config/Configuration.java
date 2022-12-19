@@ -69,12 +69,12 @@ public class Configuration {
         Configuration.dataPath = dataPath;
     }
 
-    private void connectToDatabase() {
+    //Connects to the database file
+    public void connectToDatabase() {
+        GalacticBot.getBot().getLogger().info("Connecting to the H2Database...");
         DatabaseConfig config = this.systemConfig.getDatabase();
-        if (config.getPassword().equals("blank") && config.getUsername().equals("blank")) {
-            GalacticBot.getBot().getLogger().error("Please set a username and password");
-        }
         BotSystem.getInstance().setDb(new H2Database(config.getUsername(), config.getPassword()));
+        GalacticBot.getBot().getLogger().info("Connected!");
     }
 
     //Generating all files needed to work.

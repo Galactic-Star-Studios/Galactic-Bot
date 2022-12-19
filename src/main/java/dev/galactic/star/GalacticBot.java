@@ -34,11 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 public class GalacticBot {
 
@@ -53,7 +52,6 @@ public class GalacticBot {
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(ManagementFactory.getRuntimeMXBean().getInputArguments().toArray()));
         bot.logger.info("Starting Discord Bot...");
         bot.loadEverything();
         bot.logger.info("Started Discord Bot.");
@@ -115,12 +113,10 @@ public class GalacticBot {
                 }
                 if (isConfigured) {
                     bot.getLogger().warn("Done with the configuration. If you want to reconfigure these settings, " +
-                            "please open" +
-                            " the \"System.json\" file. Now restarting...");
+                            "please open the \"System.json\" file.");
                 }
             }
         }
-        System.out.println(config.getToken());
         Configuration.getInstance().setSystemConfig(config);
     }
 
@@ -129,6 +125,7 @@ public class GalacticBot {
         this.system = new BotSystem();
         this.system.loadSystemCommands();
         this.system.loadConfigurations();
+        Configuration.getInstance().connectToDatabase();
         this.loginToBot();
         this.jda.addEventListener(new CommandLoader());
         CommandLoader.registerCommands(this.jda);
@@ -186,12 +183,14 @@ public class GalacticBot {
     //Creates a listener for the commands on a separate thread, so it doesn't block the main thread.+
     @SuppressWarnings("deprecation")
     public void listenForCommands() {
-        Thread commandListener = new Thread(() -> {
+        CompletableFuture.runAsync(() -> {
             try (Scanner scanner = new Scanner(System.in)) {
                 while (this.isRunning) {
+                    System.out.println(this.isRunning);
                     String cmd = scanner.nextLine().toLowerCase();
                     switch (cmd) {
                         case "exit", "stop" -> {
+                            System.out.println("EXITING");
                             this.isRunning = false;
                             this.exitBot();
                         }
@@ -219,7 +218,6 @@ public class GalacticBot {
                 //Nothing here
             }
         });
-        commandListener.start();
     }
 
     //Prints the list of commands in the hashmap that  on load, it runs loadSystemCommands which places the name and
