@@ -18,25 +18,59 @@ package dev.galactic.star.config.comands.slash;
 
 import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 
-public class SlashChoices {
+/**
+ * Config class so SnakeYAML can parse the choices
+ */
+public class SlashChoice {
     private String name;
     private String value;
 
+
+    /**
+     * Converts the data in this class to a usable Choice object in the slash command building
+     *
+     * @return Choice object
+     * @see Choice
+     */
     public Choice toData() {
         return new Choice(this.name, this.value);
     }
+
+
+    /**
+     * Getter for choice name
+     *
+     * @return String name
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * Setter for choice name
+     *
+     * @param name String name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+
+    /**
+     * Getter for choice value
+     *
+     * @return String value
+     */
     public String getValue() {
         return value;
     }
 
+    /**
+     * Setter for choice value
+     *
+     * @param value String value
+     */
     public void setValue(String value) {
         this.value = value;
     }

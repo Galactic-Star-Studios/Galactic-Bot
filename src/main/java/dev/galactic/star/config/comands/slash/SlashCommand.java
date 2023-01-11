@@ -21,20 +21,30 @@ import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 
 import java.util.List;
 
+/**
+ * Config class so SnakeYAML can parse the slash commands
+ */
 public class SlashCommand {
     private String name;
     private String description;
     private boolean enabledByDefault = true;
     private List<SlashPrivilege> privileges;
-    private List<SlashOptions> options;
+    private List<SlashOption> options;
     private List<SlashSubCommand> subCommands;
     private List<SlashSubCommandGroup> subCommandGroups;
     private String handler;
 
+    /**
+     * Converts the data in this class to a usable SlashCommandData object in the slash command building
+     *
+     * @return SlashCommandData object
+     * @see SlashCommandData
+     */
+
     public SlashCommandData toData() {
         SlashCommandData data = Commands.slash(this.name, this.description);
         if (this.options != null) {
-            data.addOptions(this.options.stream().map(SlashOptions::toData).toList());
+            data.addOptions(this.options.stream().map(SlashOption::toData).toList());
         }
         if (this.subCommands != null) {
             data.addSubcommands(this.subCommands.stream().map(SlashSubCommand::toData).toList());
@@ -45,66 +55,162 @@ public class SlashCommand {
         return data;
     }
 
+    /**
+     * Getter for List&gt;SlashSubCommandGroup&lt;
+     *
+     * @return List&gt;SlashSubCommandGroup&lt;
+     * @see SlashSubCommandGroup
+     */
     public List<SlashSubCommandGroup> getSubCommandGroups() {
         return subCommandGroups;
     }
 
+
+    /**
+     * Setter for sub command group list
+     *
+     * @param subCommandGroups List&gt;SlashSubCommandGroup&lt;
+     */
     public void setSubCommandGroups(List<SlashSubCommandGroup> subCommandGroups) {
         this.subCommandGroups = subCommandGroups;
     }
 
+    /**
+     * Getter for List&gt;SlashSubCommand&lt;
+     *
+     * @return List&gt;SlashSubCommand&lt;
+     * @see SlashSubCommand
+     */
     public List<SlashSubCommand> getSubCommands() {
         return subCommands;
     }
 
+
+    /**
+     * Setter for List&gt;SlashSubCommand&lt;
+     *
+     * @param subCommands List&gt;SlashSubCommand&lt;
+     */
     public void setSubCommands(List<SlashSubCommand> subCommands) {
         this.subCommands = subCommands;
     }
 
-    public List<SlashOptions> getOptions() {
+    /**
+     * Getter for List&gt;SlashOptions&lt;
+     *
+     * @return List&gt;SlashOptions&lt;
+     * @see SlashOption
+     */
+    public List<SlashOption> getOptions() {
         return options;
     }
 
-    public void setOptions(List<SlashOptions> options) {
+
+    /**
+     * Setter for List&gt;SlashOptions&lt;
+     *
+     * @param options List&gt;SlashOptions&lt;
+     */
+    public void setOptions(List<SlashOption> options) {
         this.options = options;
     }
 
+
+    /**
+     * Getter for the handler path
+     *
+     * @return String handler path
+     */
     public String getHandler() {
         return handler;
     }
 
+
+    /**
+     * Setter for command handler
+     *
+     * @param handler String command handler
+     */
     public void setHandler(String handler) {
         this.handler = handler;
     }
 
+
+    /**
+     * Getter for slash command name
+     *
+     * @return String name
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * Setter for slash command name
+     *
+     * @param name String command name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+
+    /**
+     * Getter for command description
+     *
+     * @return String command description
+     */
     public String getDescription() {
         return description;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+
+    /**
+     * Getter for whether it is enabld by default
+     *
+     * @return Boolea true/false
+     */
     public boolean isEnabledByDefault() {
         return enabledByDefault;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setEnabledByDefault(boolean enabledByDefault) {
         this.enabledByDefault = enabledByDefault;
     }
 
+    /**
+     * Getter for List&gt;SlashPrivilege&lt;
+     *
+     * @return List&gt;SlashPrivilege&lt;
+     * @see SlashSubCommand
+     */
     public List<SlashPrivilege> getPrivileges() {
         return privileges;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setPrivileges(List<SlashPrivilege> privileges) {
         this.privileges = privileges;
     }

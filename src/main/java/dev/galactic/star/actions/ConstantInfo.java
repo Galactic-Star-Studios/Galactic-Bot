@@ -16,8 +16,20 @@
 
 package dev.galactic.star.actions;
 
+/**
+ * A class for info
+ */
 public class ConstantInfo {
-    public static final String inviteLink = "https://discord.gg/8vRfYaw9Y7";
+    /**
+     * Constant GitHub link to our Discord bot
+     */
     public static final String githubLink = "https://github.com/Galactic-Star-Studios";
+    /**
+     * Constant documentation link
+     */
     public static final String docsLink = "https://galactic-star.dev";
+    /**
+     * Permanante invite link
+     */
+    public static String inviteLink = "NOT SET";
 }

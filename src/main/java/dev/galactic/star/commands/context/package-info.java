@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2022 Galactic Star Studios
+ * Copyright 2022-2023 Galactic Star Studios
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package dev.galactic.star.commands;
-
-import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent;
-
 /**
- * The handler interface so on execution, it can handle accordingly based on the type of context command
+ * The context commands directory
  */
-public interface ContextHandler {
-    /**
-     * The method that is implemented so it can be handled
-     *
-     * @param event The type of event that will track
-     */
-    void handleEvent(UserContextInteractionEvent event);
-}
+package dev.galactic.star.commands.context;

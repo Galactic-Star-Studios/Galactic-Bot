@@ -32,8 +32,11 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Main configuration file that handles generiting, parsing/reading
+ */
 public class Configuration {
-    public static String dataPath;
+    private static String dataPath;
     private static Configuration instance;
     private File systemConfigFile;
     private SystemConfig systemConfig;
@@ -48,8 +51,10 @@ public class Configuration {
     private File avatarFile;
     private File h2Db;
 
-    //Just so when it gets instantiated, it removes the last bit (The jar file's name) and replaces it with an empty
-    // string
+    /**
+     * Just so when it gets instantiated, it removes the last bit (The jar file's name) and replaces it with an empty
+     * string
+     */
     public Configuration() {
         instance = this;
         dataPath = GalacticBot.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -57,19 +62,27 @@ public class Configuration {
         Configuration.dataPath = dataPath.replace(splitJsonPath[splitJsonPath.length - 1], "");
     }
 
+    /**
+     * Returns the instance of the singleton class
+     *
+     * @return Singleton instance
+     */
     public static Configuration getInstance() {
         return instance;
     }
 
+    /**
+     * Returns the String path to where the jar is executed
+     *
+     * @return String path
+     */
     public static String getDataPath() {
         return dataPath;
     }
 
-    public static void setDataPath(String dataPath) {
-        Configuration.dataPath = dataPath;
-    }
-
-    //Connects to the database file
+    /**
+     * Connects to the database file
+     */
     public void connectToDatabase() {
         GalacticBot.getBot().getLogger().info("Connecting to the H2Database...");
         DatabaseConfig config = this.systemConfig.getDatabase();
@@ -77,7 +90,9 @@ public class Configuration {
         GalacticBot.getBot().getLogger().info("Connected!");
     }
 
-    //Generating all files needed to work.
+    /**
+     * Generating all files needed to work.
+     */
     public void generateFiles() {
         this.initializeFiles();
         this.generateAvatarFile();
@@ -85,7 +100,9 @@ public class Configuration {
         this.generateAndReadCommandFiles();
     }
 
-    //Generating System.json file
+    /**
+     * Generating System.json file
+     */
     private void generateAndReadSystemFile() {
         this.generateSystemConfig();
         Gson gson = new Gson();
@@ -98,7 +115,9 @@ public class Configuration {
         }
     }
 
-    //Generating the avatar files
+    /**
+     * Generating the avatar files
+     */
     private void generateAvatarFile() {
         try (InputStream in = GalacticBot.class.getResourceAsStream("/Avatar.png")) {
             Files.copy(in, this.avatarFile.toPath());
@@ -107,7 +126,9 @@ public class Configuration {
         }
     }
 
-    //Generates the system configuration file.
+    /**
+     * Generates the system configuration file.
+     */
     public void generateSystemConfig() {
         if (!systemConfigFile.exists()) {
             try (InputStream jsonIn = SystemConfig.class
@@ -121,7 +142,9 @@ public class Configuration {
         }
     }
 
-    //Assigning the above file objects to these
+    /**
+     * Assigning the above file objects to these
+     */
     private void initializeFiles() {
         new File(Configuration.dataPath + "commands/").mkdirs();
         //this.h2Db = new File(Configuration.dataPath + "Database.h2/");
@@ -133,7 +156,9 @@ public class Configuration {
         this.rolesAndIds = new File(Configuration.dataPath, "RolesAndIds.yml");
     }
 
-    //Generating all files if it doesn't already exist and reading from them
+    /**
+     * Generating all files if it doesn't already exist and reading from them
+     */
     private void generateAndReadCommandFiles() {
         this.generateCommandFiles();
         try (InputStream mod = new FileInputStream(this.modCommandFile);
@@ -144,11 +169,16 @@ public class Configuration {
             this.modCommandConfig = Arrays.asList(new Yaml(new Constructor(SlashCommand[].class)).load(mod));
             this.userCommandConfig = Arrays.asList(new Yaml(new Constructor(SlashCommand[].class)).load(user));
             this.contextConfig = Arrays.asList(new Yaml(new Constructor(ContextCommand[].class)).load(context));
+            this.rolesAndIdsConfigs =
+                    Arrays.asList(new Yaml(new Constructor(RolesAndIdsConfig[].class)).load(rolesIds));
         } catch (IOException e) {
             //
         }
     }
 
+    /**
+     * Generates the command configuration files
+     */
     private void generateCommandFiles() {
         try (InputStream mod = SystemConfig.class
                 .getClassLoader()
@@ -171,98 +201,220 @@ public class Configuration {
         }
     }
 
+    /**
+     * Getter for System config file
+     *
+     * @return File
+     */
     public File getSystemConfigFile() {
         return systemConfigFile;
     }
 
+    /**
+     * Setter for SystemConfig file
+     *
+     * @param systemConfigFile The file to set
+     */
     public void setSystemConfigFile(File systemConfigFile) {
         this.systemConfigFile = systemConfigFile;
     }
 
+    /**
+     * Getter for SystemConfig class
+     *
+     * @return SystemConfig
+     */
     public SystemConfig getSystemConfig() {
         return systemConfig;
     }
 
+    /**
+     * Setter for SystemConfig class
+     *
+     * @param systemConfig SystemConfig instance
+     */
     public void setSystemConfig(SystemConfig systemConfig) {
         this.systemConfig = systemConfig;
     }
 
+    /**
+     * Getter for all of the moderator commands that are set in the Mod.yml
+     *
+     * @return List of SlashCommands
+     */
     public List<SlashCommand> getModCommandConfig() {
         return modCommandConfig;
     }
 
+    /**
+     * Setter for the list of moderator commands
+     *
+     * @param modCommandConfig List of SlashCommand
+     */
     public void setModCommandConfig(List<SlashCommand> modCommandConfig) {
         this.modCommandConfig = modCommandConfig;
     }
 
+    /**
+     * Getter for UserCommandConfig
+     *
+     * @return List of SlashCommand
+     */
     public List<SlashCommand> getUserCommandConfig() {
         return userCommandConfig;
     }
 
+    /**
+     * Setter for the list of user commands
+     *
+     * @param userCommandConfig List of SlashCommand
+     */
     public void setUserCommandConfig(List<SlashCommand> userCommandConfig) {
         this.userCommandConfig = userCommandConfig;
     }
 
+    /**
+     * Getter for the ContextConfig class
+     *
+     * @return List of ContextCommand
+     */
     public List<ContextCommand> getContextConfig() {
         return contextConfig;
     }
 
+    /**
+     * Setter for the list of context commands
+     *
+     * @param userCommandConfig List of ContextCommand
+     */
     public void setContextConfig(List<ContextCommand> contextConfig) {
         this.contextConfig = contextConfig;
     }
 
+
+    /**
+     * Setter for the list of roles and ids from the config
+     *
+     * @return List of roles and ids
+     */
     public List<RolesAndIdsConfig> getRolesAndIdsConfigs() {
         return rolesAndIdsConfigs;
     }
 
+
+    /**
+     * Setter for the list of roles and ids
+     *
+     * @param userCommandConfig List of RolesAndIdsConfig
+     */
     public void setRolesAndIdsConfigs(List<RolesAndIdsConfig> rolesAndIdsConfigs) {
         this.rolesAndIdsConfigs = rolesAndIdsConfigs;
     }
 
+    /**
+     * Getter for the Moderator command file
+     *
+     * @return Mod Command File
+     */
     public File getModCommandFile() {
         return modCommandFile;
     }
 
+    /**
+     * Setter for Moderator command file
+     *
+     * @param modCommandFile The moderator command file
+     */
     public void setModCommandFile(File modCommandFile) {
         this.modCommandFile = modCommandFile;
     }
 
+    /**
+     * Getter for the user command file
+     *
+     * @return User Command File
+     */
     public File getUserCommandFile() {
         return userCommandFile;
     }
 
+    /**
+     * Setter for user command file
+     *
+     * @param modCommandFile The user command file
+     */
     public void setUserCommandFile(File userCommandFile) {
         this.userCommandFile = userCommandFile;
     }
 
+    /**
+     * Getter for the context command file
+     *
+     * @return Context Command File
+     */
     public File getContextCommandsFile() {
         return contextCommandsFile;
     }
 
+    /**
+     * Setter for Context Command file
+     *
+     * @param contextCommandsFile Context Command File
+     */
     public void setContextCommandsFile(File contextCommandsFile) {
         this.contextCommandsFile = contextCommandsFile;
     }
 
+    /**
+     * Getter for the roles and ids file
+     *
+     * @return RolesAndIds File
+     */
     public File getRolesAndIds() {
         return rolesAndIds;
     }
 
+    /**
+     * Setter for roles and ids file
+     *
+     * @param rolesAndIds Roles and ids file
+     */
     public void setRolesAndIds(File rolesAndIds) {
         this.rolesAndIds = rolesAndIds;
     }
 
+    /**
+     * Getter for Avatar image file
+     *
+     * @return Avatar image file
+     */
     public File getAvatarFile() {
         return avatarFile;
     }
 
+    /**
+     * Setter for Avatar image file
+     *
+     * @param avatarFile Avatar file
+     */
     public void setAvatarFile(File avatarFile) {
         this.avatarFile = avatarFile;
     }
 
+    /**
+     * Getter for the H2 Database file
+     *
+     * @return Database File
+     */
     public File getH2Db() {
         return h2Db;
     }
 
+    /**
+     * SEtter for the H2 Database file
+     *
+     * @param h2Db Database File
+     */
     public void setH2Db(File h2Db) {
         this.h2Db = h2Db;
     }

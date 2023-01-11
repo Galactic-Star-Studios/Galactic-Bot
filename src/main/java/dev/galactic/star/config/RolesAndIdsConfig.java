@@ -16,31 +16,64 @@
 
 package dev.galactic.star.config;
 
+/**
+ * Configuration class so SnakeYAML can parse and store the data
+ */
 public class RolesAndIdsConfig {
     private String name;
     private String type;
     private Object id;
 
+    /**
+     * Getter for name
+     *
+     * @return Name String
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter for name
+     *
+     * @param name Name as String
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter for type of id it is
+     *
+     * @return String type
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Setter for the type
+     *
+     * @param type Type of id it is
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * Getter for the id.
+     *
+     * @return The id as an object
+     */
     public Object getId() {
         return id;
     }
 
+    /**
+     * Setter for the ID
+     *
+     * @param id The id as an integer or String
+     */
     public void setId(Object id) {
         this.id = id;
     }

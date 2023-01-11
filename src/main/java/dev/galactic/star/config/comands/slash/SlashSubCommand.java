@@ -20,39 +20,81 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.util.List;
 
+/**
+ * Config class so SnakeYAML can parse the sub commands
+ */
 public class SlashSubCommand {
     private String name;
     private String description;
-    private List<SlashOptions> options;
+    private List<SlashOption> options;
 
+    /**
+     * Converts the data in this class to a usable SubCommandData object in the slash command building
+     *
+     * @return SubCommandData object
+     * @see SubcommandData
+     */
     public SubcommandData toData() {
         SubcommandData data = new SubcommandData(this.name, this.description);
         if (this.options != null) {
-            data.addOptions(this.options.stream().map(SlashOptions::toData).toList());
+            data.addOptions(this.options.stream().map(SlashOption::toData).toList());
         }
         return data;
     }
+
+
+    /**
+     * Getter for sub command name
+     *
+     * @return String name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Getter for sub command description
+     *
+     * @return String description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public List<SlashOptions> getOptions() {
+    /**
+     * Getter for List&gt;SlashOptions&lt;
+     *
+     * @return List&gt;SlashOptiond&lt;
+     * @see SlashOption
+     */
+    public List<SlashOption> getOptions() {
         return options;
     }
 
-    public void setOptions(List<SlashOptions> options) {
+    /**
+     * Setter for
+     *
+     * @param
+     */
+    public void setOptions(List<SlashOption> options) {
         this.options = options;
     }
 }

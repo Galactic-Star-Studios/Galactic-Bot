@@ -2,6 +2,7 @@
   "token": "",
   "max_severity": -1,
   "guild_id": "",
+  "invite_link": "",
   "for_guild": true,
   "del_cmd_on_reload": false,
   "database": {

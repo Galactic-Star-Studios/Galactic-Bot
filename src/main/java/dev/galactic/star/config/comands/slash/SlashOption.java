@@ -22,60 +22,129 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SlashOptions {
+/**
+ * Config class so SnakeYAML can parse the options of the slash command
+ */
+public class SlashOption {
     private String name;
     private String description;
     private boolean required;
     private String type;
-    private List<SlashChoices> choices;
+    private List<SlashChoice> choices;
 
+    /**
+     * Converts the data in this class to a usable OptionData object in the slash command building
+     *
+     * @return OptionData object
+     * @see net.dv8tion.jda.api.interactions.commands.build.OptionData
+     */
     public OptionData toData() {
         OptionData data = new OptionData(OptionType.valueOf(this.type.toUpperCase()), this.name, this.description,
                 this.required
         );
         //data.setAutoComplete(true);
         if (this.choices != null) {
-            data.addChoices(this.choices.stream().map(SlashChoices::toData).collect(Collectors.toList()));
+            data.addChoices(this.choices.stream().map(SlashChoice::toData).collect(Collectors.toList()));
         }
         return data;
     }
 
-    public List<SlashChoices> getChoices() {
+    /**
+     * Getter for List&gt;SlashChoice&lt;
+     *
+     * @return List&gt;SlashChoice&lt;
+     * @see SlashChoice
+     */
+    public List<SlashChoice> getChoices() {
         return choices;
     }
 
-    public void setChoices(List<SlashChoices> choices) {
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
+    public void setChoices(List<SlashChoice> choices) {
         this.choices = choices;
     }
 
+
+    /**
+     * Getter for option name
+     *
+     * @return String name
+     */
     public String getName() {
         return name;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+
+    /**
+     * Getter for option description
+     *
+     * @return String description
+     */
     public String getDescription() {
         return description;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+
+    /**
+     * Getter for whether it is a required option
+     *
+     * @return Boolean true/false
+     */
     public boolean isRequired() {
         return required;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setRequired(boolean required) {
         this.required = required;
     }
 
+
+    /**
+     * Getter for option type
+     *
+     * @return String type
+     */
     public String getType() {
         return type;
     }
 
+
+    /**
+     * Setter for
+     *
+     * @param
+     */
     public void setType(String type) {
         this.type = type;
     }

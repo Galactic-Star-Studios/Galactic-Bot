@@ -16,38 +16,79 @@
 
 package dev.galactic.star.config.system;
 
+import dev.galactic.star.actions.ConstantInfo;
+
 public class SystemConfig {
     private String token;
     private int max_severity;
     private String guild_id;
+    private String invite_link;
     private boolean for_guild;
     private boolean del_cmd_on_reload;
     private DatabaseConfig database;
     private SystemActivity activity;
     private String online_status;
 
+    public String getInvite_link() {
+        return invite_link;
+    }
+
+    public void setInvite_link(String invite_link) {
+        ConstantInfo.inviteLink = invite_link;
+        this.invite_link = invite_link;
+    }
+
     public String getToken() {
         return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public SystemActivity getActivity() {
         return activity;
     }
 
+    public void setActivity(SystemActivity activity) {
+        this.activity = activity;
+    }
+
     public String getOnline_status() {
         return online_status;
+    }
+
+    public void setOnline_status(String online_status) {
+        this.online_status = online_status;
     }
 
     public String getGuild_id() {
         return guild_id;
     }
 
+    public void setGuild_id(String guild_id) {
+        this.guild_id = guild_id;
+    }
+
     public boolean isFor_guild() {
         return for_guild;
     }
 
+    public void setFor_guild(boolean for_guild) {
+        this.for_guild = for_guild;
+    }
+
+    /**
+     * Boolean whether the bot should delete all commands from the server when
+     *
+     * @return
+     */
     public boolean isDel_cmd_on_reload() {
         return del_cmd_on_reload;
+    }
+
+    public void setDel_cmd_on_reload(boolean del_cmd_on_reload) {
+        this.del_cmd_on_reload = del_cmd_on_reload;
     }
 
     public DatabaseConfig getDatabase() {
@@ -56,30 +97,6 @@ public class SystemConfig {
 
     public void setDatabase(DatabaseConfig database) {
         this.database = database;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public void setGuild_id(String guild_id) {
-        this.guild_id = guild_id;
-    }
-
-    public void setFor_guild(boolean for_guild) {
-        this.for_guild = for_guild;
-    }
-
-    public void setDel_cmd_on_reload(boolean del_cmd_on_reload) {
-        this.del_cmd_on_reload = del_cmd_on_reload;
-    }
-
-    public void setActivity(SystemActivity activity) {
-        this.activity = activity;
-    }
-
-    public void setOnline_status(String online_status) {
-        this.online_status = online_status;
     }
 
     public int getMax_severity() {

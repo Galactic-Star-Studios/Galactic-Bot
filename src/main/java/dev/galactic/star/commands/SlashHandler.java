@@ -18,7 +18,15 @@ package dev.galactic.star.commands;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+/**
+ * The handler interface so on execution, it can handle accordingly based on the type of command
+ */
 public interface SlashHandler {
 
-    public void handleEvent(SlashCommandInteractionEvent event);
+    /**
+     * This method is implemented to a class that is a command handler class
+     *
+     * @param event SlashCommand Event
+     */
+    void handleEvent(SlashCommandInteractionEvent event);
 }

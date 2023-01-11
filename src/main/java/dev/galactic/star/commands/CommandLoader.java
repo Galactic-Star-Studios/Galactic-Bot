@@ -30,12 +30,21 @@ import net.dv8tion.jda.api.interactions.commands.Command;
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * This class loads the commands by parsing the file, generating the command from the methods, deleting the commands
+ * in the discord server, and creating new ones. On command event, invokes the method in the class that is used to
+ * handle it
+ */
 public class CommandLoader extends ListenerAdapter {
 
     private static final HashMap<Command, SlashCommand> slashCommands = new HashMap<>();
     private static final HashMap<Command, ContextCommand> contextCommands = new HashMap<>();
 
-    //Registers the slash/context commands
+    /**
+     * Deletes/registers the commands so that they can be updated.
+     *
+     * @param jda JDA Object
+     */
     public static void registerCommands(JDA jda) {
         //Running it asynchronously
         CompletableFuture.runAsync(() -> {
@@ -43,26 +52,74 @@ public class CommandLoader extends ListenerAdapter {
             contextCommands.clear();
             Configuration config = Configuration.getInstance();
             if (config.getSystemConfig().isDel_cmd_on_reload()) {
-                for (Command cmd : jda.retrieveCommands().complete()) {
-                    cmd.delete().queue();
-                }
+                Thread asyncSlashDeletion = new Thread(() -> {
+                    for (Command cmd : jda.retrieveCommands().complete()) {
+                        cmd.delete().queue();
+
+                    }
+                    GalacticBot.getBot().getLogger().info("Deleted the slash/context commands. Now registering them.");
+                });
+                asyncSlashDeletion.start();
             }
-            config.getModCommandConfig().forEach(e -> slashCommands.put(jda.upsertCommand(e.toData()).complete(), e));
-            config.getUserCommandConfig().forEach(e -> slashCommands.put(jda.upsertCommand(e.toData()).complete(), e));
-            config.getContextConfig().forEach(e -> contextCommands.put(jda.upsertCommand(e.toData()).complete(), e));
-            GalacticBot.getBot().getLogger().info("Updated and registered slash/context commands.");
+            Thread asyncModCommandRegister = new Thread(() -> {
+                config.getModCommandConfig().forEach(e -> slashCommands.put(
+                        jda.upsertCommand(e.toData()).complete(),
+                        e
+                ));
+                GalacticBot.getBot().getLogger().info("Registered the mod slash commands.");
+            });
+            Thread asyncUserCommandRegister = new Thread(() -> {
+                config.getUserCommandConfig().forEach(e -> slashCommands.put(jda.upsertCommand(e.toData()).complete()
+                        , e));
+                GalacticBot.getBot().getLogger().info("Registered the user slash commands.");
+            });
+            Thread asyncContextCommandRegister = new Thread(() -> {
+                config.getContextConfig().forEach(e -> contextCommands.put(
+                        jda.upsertCommand(e.toData()).complete(),
+                        e
+                ));
+                GalacticBot.getBot().getLogger().info("Registered the context commands.");
+            });
+            asyncModCommandRegister.start();
+            asyncUserCommandRegister.start();
+            asyncContextCommandRegister.start();
+            try {
+                asyncModCommandRegister.join();
+                asyncUserCommandRegister.join();
+                asyncContextCommandRegister.join();
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            GalacticBot.getBot().getLogger().info("Updated and registered all slash and context commands.");
         });
     }
 
+    /**
+     * Gets the map of slash commands
+     *
+     * @return Hashmap&lt;Command, SlashCommand&gt;
+     */
     public static HashMap<Command, SlashCommand> getSlashCommands() {
         return slashCommands;
     }
 
+    /**
+     * Gets the map of context commands
+     *
+     * @return Hashmap&lt;Command, ContextCommand&gt;
+     */
     public static HashMap<Command, ContextCommand> getContextCommands() {
         return contextCommands;
     }
 
-    //Returns the slash command
+    /**
+     * Gets the handler of the command by its name
+     *
+     * @param name Name of the command as a String
+     * @return SlashHandler
+     * @throws UnknownCommandException If the name is invalid
+     */
     @SuppressWarnings("deprecation")
     public SlashHandler getCommand(String name) throws UnknownCommandException {
         String cmd = slashCommands.values()
@@ -79,7 +136,13 @@ public class CommandLoader extends ListenerAdapter {
         }
     }
 
-    //Returns the context command
+    /**
+     * Gets the handler of the context command by its name
+     *
+     * @param name Name of the context command as a String
+     * @return SlashHandler
+     * @throws UnknownCommandException If the name is invalid
+     */
     @SuppressWarnings("deprecation")
     public ContextHandler getContextCommand(String name) throws UnknownCommandException {
         String cmd = contextCommands.values()
@@ -96,7 +159,11 @@ public class CommandLoader extends ListenerAdapter {
         }
     }
 
-    //Invokes the method to handle the event
+    /**
+     * Invokes the method to handle the event
+     *
+     * @param event UserContextInteractionEvent
+     */
     @Override
     public void onUserContextInteraction(UserContextInteractionEvent event) {
         super.onUserContextInteraction(event);
@@ -107,7 +174,11 @@ public class CommandLoader extends ListenerAdapter {
         }
     }
 
-    //Invokes the method to handle the event
+    /**
+     * Invokes the method to handle the event
+     *
+     * @param event SlashCommandInteractionEvent
+     */
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
         super.onSlashCommandInteraction(event);

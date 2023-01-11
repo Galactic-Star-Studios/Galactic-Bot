@@ -1,4 +1,5 @@
 #Config taken by JavaDiscord's java bot: https://github.com/Java-Discord/JavaBot
+#I would highly recommend joining their Discord
 - name: Report User
   type: USER
   handler: dev.galactic.star.commands.mod.ReportCommand

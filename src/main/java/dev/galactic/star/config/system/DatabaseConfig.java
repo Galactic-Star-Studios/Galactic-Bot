@@ -16,6 +16,9 @@
 
 package dev.galactic.star.config.system;
 
+/**
+ * The Database login details, etc
+ */
 public class DatabaseConfig {
     private String username;
     private String password;
@@ -24,14 +27,29 @@ public class DatabaseConfig {
         return username;
     }
 
+    /**
+     * Setter for username
+     *
+     * @param username String username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Getter for password
+     *
+     * @return Password as String
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Setter for password
+     *
+     * @param password Password as String
+     */
     public void setPassword(String password) {
         this.password = password;
     }
