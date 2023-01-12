@@ -53,9 +53,9 @@ public class SlashSubCommand {
     }
 
     /**
-     * Setter for
+     * Setter for the subcommand name
      *
-     * @param
+     * @param name String name
      */
     public void setName(String name) {
         this.name = name;
@@ -71,9 +71,9 @@ public class SlashSubCommand {
     }
 
     /**
-     * Setter for
+     * Setter for the subcommand description
      *
-     * @param
+     * @param description String description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -82,7 +82,7 @@ public class SlashSubCommand {
     /**
      * Getter for List&gt;SlashOptions&lt;
      *
-     * @return List&gt;SlashOptiond&lt;
+     * @return List&gt;SlashOption&lt;
      * @see SlashOption
      */
     public List<SlashOption> getOptions() {
@@ -90,9 +90,10 @@ public class SlashSubCommand {
     }
 
     /**
-     * Setter for
+     * Setter for List&gt;SlashOptions&lt;
      *
-     * @param
+     * @param options List&gt;SlashOption&lt;
+     * @see SlashOption
      */
     public void setOptions(List<SlashOption> options) {
         this.options = options;

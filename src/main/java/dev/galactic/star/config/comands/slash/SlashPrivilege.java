@@ -51,9 +51,9 @@ public class SlashPrivilege {
     }
 
     /**
-     * Setter for
+     * Setter for the type of privilege
      *
-     * @param
+     * @param type String type
      */
     public void setType(String type) {
         this.type = type;
@@ -71,9 +71,9 @@ public class SlashPrivilege {
 
 
     /**
-     * Setter for
+     * Setter for the privilege ID
      *
-     * @param
+     * @param id String id of the privilege
      */
     public void setId(String id) {
         this.id = id;
@@ -91,9 +91,9 @@ public class SlashPrivilege {
 
 
     /**
-     * Setter for
+     * Setter for whether it is enabled or not
      *
-     * @param
+     * @param enabled True/False
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

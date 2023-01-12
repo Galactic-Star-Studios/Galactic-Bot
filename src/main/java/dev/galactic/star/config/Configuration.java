@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Main configuration file that handles generiting, parsing/reading
+ * Main configuration file that handles generating, parsing/reading
  */
 public class Configuration {
     private static String dataPath;
@@ -411,7 +411,7 @@ public class Configuration {
     }
 
     /**
-     * SEtter for the H2 Database file
+     * Setter for the H2 Database file
      *
      * @param h2Db Database File
      */

@@ -42,7 +42,6 @@ public class SlashOption {
         OptionData data = new OptionData(OptionType.valueOf(this.type.toUpperCase()), this.name, this.description,
                 this.required
         );
-        //data.setAutoComplete(true);
         if (this.choices != null) {
             data.addChoices(this.choices.stream().map(SlashChoice::toData).collect(Collectors.toList()));
         }
@@ -61,9 +60,10 @@ public class SlashOption {
 
 
     /**
-     * Setter for
+     * Setter for the list of choices
      *
-     * @param
+     * @param choices List&gt;SlashPrivilege&lt;
+     * @see SlashChoice
      */
     public void setChoices(List<SlashChoice> choices) {
         this.choices = choices;
@@ -81,9 +81,9 @@ public class SlashOption {
 
 
     /**
-     * Setter for
+     * Setter for the list of option name
      *
-     * @param
+     * @param name String name
      */
     public void setName(String name) {
         this.name = name;
@@ -101,9 +101,9 @@ public class SlashOption {
 
 
     /**
-     * Setter for
+     * Setter for the option's description
      *
-     * @param
+     * @param description Boolean
      */
     public void setDescription(String description) {
         this.description = description;
@@ -121,9 +121,9 @@ public class SlashOption {
 
 
     /**
-     * Setter for
+     * Setter for whether it is required or not
      *
-     * @param
+     * @param required Boolean
      */
     public void setRequired(boolean required) {
         this.required = required;
@@ -141,9 +141,9 @@ public class SlashOption {
 
 
     /**
-     * Setter for
+     * Setter for the option type
      *
-     * @param
+     * @param type String option type
      */
     public void setType(String type) {
         this.type = type;

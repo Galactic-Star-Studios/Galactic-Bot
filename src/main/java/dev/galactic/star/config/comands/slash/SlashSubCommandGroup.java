@@ -52,9 +52,9 @@ public class SlashSubCommandGroup {
     }
 
     /**
-     * Setter for
+     * Setter for sub command group name
      *
-     * @param
+     * @param name String name
      */
     public void setName(String name) {
         this.name = name;
@@ -70,9 +70,9 @@ public class SlashSubCommandGroup {
     }
 
     /**
-     * Setter for
+     * Setter for sub command group description
      *
-     * @param
+     * @param description String name
      */
     public void setDescription(String description) {
         this.description = description;
@@ -89,9 +89,10 @@ public class SlashSubCommandGroup {
     }
 
     /**
-     * Setter for
+     * Getter for sub command array
      *
-     * @param
+     * @param subCommands SlashSubCommand[]
+     * @see SlashSubCommand
      */
     public void setSubCommands(SlashSubCommand[] subCommands) {
         this.subCommands = subCommands;

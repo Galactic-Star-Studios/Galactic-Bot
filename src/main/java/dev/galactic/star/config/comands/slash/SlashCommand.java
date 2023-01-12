@@ -167,9 +167,9 @@ public class SlashCommand {
 
 
     /**
-     * Setter for
+     * Setter for whether it's description
      *
-     * @param
+     * @param description String description
      */
     public void setDescription(String description) {
         this.description = description;
@@ -177,9 +177,9 @@ public class SlashCommand {
 
 
     /**
-     * Getter for whether it is enabld by default
+     * Getter for whether it is enabled by default
      *
-     * @return Boolea true/false
+     * @return Boolean true/false
      */
     public boolean isEnabledByDefault() {
         return enabledByDefault;
@@ -187,9 +187,9 @@ public class SlashCommand {
 
 
     /**
-     * Setter for
+     * Setter for whether it is enabled by default
      *
-     * @param
+     * @param enabledByDefault Boolean
      */
     public void setEnabledByDefault(boolean enabledByDefault) {
         this.enabledByDefault = enabledByDefault;
@@ -199,7 +199,7 @@ public class SlashCommand {
      * Getter for List&gt;SlashPrivilege&lt;
      *
      * @return List&gt;SlashPrivilege&lt;
-     * @see SlashSubCommand
+     * @see SlashPrivilege
      */
     public List<SlashPrivilege> getPrivileges() {
         return privileges;
@@ -207,9 +207,10 @@ public class SlashCommand {
 
 
     /**
-     * Setter for
+     * Getter for List&gt;SlashPrivilege&lt;
      *
-     * @param
+     * @param privileges List&gt;SlashPrivilege&lt;
+     * @see SlashPrivilege
      */
     public void setPrivileges(List<SlashPrivilege> privileges) {
         this.privileges = privileges;

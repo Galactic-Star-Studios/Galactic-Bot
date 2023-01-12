@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * The main directory that has the main class, the configuration directories, commnads, etc
+ * The main directory that has the main class, the configuration directories, commands, etc
  */
 package dev.galactic.star;
