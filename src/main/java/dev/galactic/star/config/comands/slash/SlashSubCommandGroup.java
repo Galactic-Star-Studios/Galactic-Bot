@@ -16,35 +16,34 @@
 
 package dev.galactic.star.config.comands.slash;
 
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
+import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 
-import java.util.List;
+import java.util.Arrays;
 
 /**
- * Config class so SnakeYAML can parse the sub commands
+ * Config class so SnakeYAML can parse the sub command groups
  */
-public class SlashSubCommand {
+public class SlashSubCommandGroup {
     private String name;
     private String description;
-    private List<SlashOption> options;
+    private SlashSubCommand[] subCommands;
 
     /**
-     * Converts the data in this class to a usable SubCommandData object in the slash command building
+     * Converts the data in this class to a usable SubCommandGroupData object in the slash command building
      *
-     * @return SubCommandData object
-     * @see SubcommandData
+     * @return SubCommandGroupData object
+     * @see SubcommandGroupData
      */
-    public SubcommandData toData() {
-        SubcommandData data = new SubcommandData(this.name, this.description);
-        if (this.options != null) {
-            data.addOptions(this.options.stream().map(SlashOption::toData).toList());
+    public SubcommandGroupData toData() {
+        SubcommandGroupData data = new SubcommandGroupData(this.name, this.description);
+        if (this.subCommands != null) {
+            data.addSubcommands(Arrays.stream(subCommands).map(SlashSubCommand::toData).toList());
         }
         return data;
     }
 
-
     /**
-     * Getter for sub command name
+     * Getter for sub command group name
      *
      * @return String name
      */
@@ -53,7 +52,7 @@ public class SlashSubCommand {
     }
 
     /**
-     * Setter for the subcommand name
+     * Setter for sub command group name
      *
      * @param name String name
      */
@@ -62,7 +61,7 @@ public class SlashSubCommand {
     }
 
     /**
-     * Getter for sub command description
+     * Getter for sub command group description
      *
      * @return String description
      */
@@ -71,31 +70,31 @@ public class SlashSubCommand {
     }
 
     /**
-     * Setter for the subcommand description
+     * Setter for sub command group description
      *
-     * @param description String description
+     * @param description String name
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * Getter for List&gt;SlashOptions&lt;
+     * Getter for sub command array
      *
-     * @return List&gt;SlashOption&lt;
-     * @see SlashOption
+     * @return SlashSubCommand[]
+     * @see SlashSubCommand
      */
-    public List<SlashOption> getOptions() {
-        return options;
+    public SlashSubCommand[] getSubCommands() {
+        return subCommands;
     }
 
     /**
-     * Setter for List&gt;SlashOptions&lt;
+     * Getter for sub command array
      *
-     * @param options List&gt;SlashOption&lt;
-     * @see SlashOption
+     * @param subCommands SlashSubCommand[]
+     * @see SlashSubCommand
      */
-    public void setOptions(List<SlashOption> options) {
-        this.options = options;
+    public void setSubCommands(SlashSubCommand[] subCommands) {
+        this.subCommands = subCommands;
     }
 }

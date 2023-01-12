@@ -1,4 +1,5 @@
-#Inspired config by JavaDiscord's java bot: https://github.com/Java-Discord/JavaBot
+#Config taken by JavaDiscord's java bot: https://github.com/Java-Discord/JavaBot
+#I would highly recommend joining their Discord (https://discord.gg/X3NmMgzFKF)
 - name: ban
   description: Ban a user.
   enabledByDefault: false
@@ -175,14 +176,81 @@
           description: The warn's id
           required: true
           type: INTEGER
-
-    # /warn discard-all
-    - name: discard-all
-      description: Discards all warns from a user
-      options:
-        - name: user
-          description: The user which warns should be discarded
-          required: true
-          type: USER
   handler: dev.galactic.star.commands.mod.WarnCommandHandler
-
+#/embed
+- name: embed
+  description: Edits an embed
+  enabledByDefault: false
+  privileges:
+    - type: ROLE
+      id: moderation.staffRoleId
+  subCommands:
+    #/embed create
+    - name: create
+      description: Create an embed
+      options:
+        - name: title
+          description: Title of the embed
+          required: false
+          type: STRING
+        - name: description
+          description: Description of the embed
+          required: false
+          type: STRING
+        - name: author-name
+          description: Author name of the embed
+          required: false
+          type: STRING
+        - name: author-url
+          description: Author url of the embed
+          required: false
+          type: STRING
+        - name: author-iconurl
+          description: Author iconurl of the embed
+          required: false
+          type: STRING
+        - name: thumbnail-url
+          description: Thumbnail url of the embed
+          required: false
+          type: STRING
+        - name: image-url
+          description: Image url of the embed
+          required: false
+          type: STRING
+        - name: color
+          description: "Color of the embed (e.g. #ff0000)"
+          required: false
+          type: STRING
+    # /embed edit
+    - description: Edits an embed
+      name: edit
+      options:
+        - name: link
+          description: Link of the original Message
+          required: true
+          type: STRING
+        - name: description
+          description: Description of the embed
+          required: true
+          type: STRING
+        - name: title
+          description: Title of the embed
+          required: false
+          type: STRING
+    # /editembed from-message
+    - description: Edits an Embed from a Message
+      name: from-message
+      options:
+        - name: embed-link
+          description: Link of the original Message
+          required: true
+          type: STRING
+        - name: message-link
+          description: Link of the new Message
+          required: true
+          type: STRING
+        - name: title
+          description: Title of the embed
+          required: false
+          type: STRING
+  handler: dev.galactic.star.commands.mod.EditEmbedCommand

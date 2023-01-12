@@ -1,3 +1,7 @@
 - name: moderator
   type: "ROLE"
   id: 12345
+#DO NOT DELETE
+- name: log_channel
+  type: "CHANNEL"
+  id: 123456

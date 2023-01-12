@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2022 Galactic Star Studios
+ * Copyright 2022-2023 Galactic Star Studios
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package dev.galactic.star.config.system;
-
-public class Activity {
-    private String type;
-    private String message;
-
-    public String getType() {
-        return type;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-}
+/**
+ * User commands that everybody can use
+ */
+package dev.galactic.star.commands.user;
