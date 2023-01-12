@@ -87,7 +87,7 @@ public class BotSystem {
     }
 
     /**
-     * Places the current system commands into hte hashmap so that it can be used in the printHelp method
+     * Places the current system commands into the hashmap so that it can be used in the printHelp method
      */
     public void loadSystemCommands() {
         this.systemCommands.put("exit|stop", "Stop and close the connection of the bot.");
